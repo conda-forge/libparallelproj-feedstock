@@ -2,10 +2,11 @@ schema_version: 1
 
 context:
   version: "2.0.3"
-  build_number: 0
+  build_number: 1
   python_min: "3.12"
-  cuda_version: ${{ env.get("CONDA_OVERRIDE_CUDA", default="None") }}
+  cuda_version: ${{ cuda_version }}
   cuda: ${{ "ON" if cuda_version != "None" else "OFF" }}
+
 
 recipe:
   name: libparallelproj-split
