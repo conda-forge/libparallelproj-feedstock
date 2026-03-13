@@ -39,6 +39,7 @@ outputs:
             cmake --build "%SRC_DIR%\_build_lib"
             cmake --install "%SRC_DIR%\_build_lib"
           else: |
+            echo "XXXXXXXXXXXXXXXXXXXXXXXXX CUDAARCHS=${CUDAARCHS:-<unset>}"
             cmake -S "$SRC_DIR" -B "$SRC_DIR/_build_lib" -GNinja \
               ${CMAKE_ARGS} \
               -DCMAKE_BUILD_TYPE=Release \
