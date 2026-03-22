@@ -87,9 +87,10 @@ outputs:
             - ${{ pin_compatible('cuda-version', lower_bound='x', upper_bound='x') }}
 
       ignore_run_exports:   # enforce cuda major version compatibility - see https://github.com/conda-forge/cuda-feedstock/blob/main/recipe/doc/recipe_guide.md
-        - if: cuda_compiler_version != "None"
-          then:
-            - cuda-version
+        by_name:
+          - if: cuda_compiler_version != "None"
+            then:
+              - cuda-version
             
       run_exports:
         - ${{ pin_subpackage('libparallelproj', upper_bound='x.x') }}
