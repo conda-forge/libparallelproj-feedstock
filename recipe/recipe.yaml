@@ -88,7 +88,7 @@ outputs:
             - __cuda
             - cuda-cudart
             # enforce cuda major version compatibility - see https://github.com/conda-forge/cuda-feedstock/blob/main/recipe/doc/recipe_guide.md
-            - {{ pin_compatible('cuda-version', max_pin='x', min_pin='x') }}
+            - ${{ pin_compatible('cuda-version', max_pin='x', min_pin='x') }}
             
       run_exports:
         - ${{ pin_subpackage('libparallelproj', upper_bound='x.x') }}
