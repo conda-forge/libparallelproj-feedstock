@@ -22,9 +22,6 @@ outputs:
 
     build:
       string: ${{ ("cuda" ~ (cuda_compiler_version | version_to_buildstring)) if cuda_compiler_version != "None" else "cpu" }}_${{ hash }}_${{ build_number }}
-      # ingore_run_exports needed to avoid pin to cuda minor version - see https://github.com/conda-forge/cuda-feedstock/blob/main/recipe/doc/recipe_guide.md
-      ignore_run_exports:
-        - cuda-version
       script:
         - if: win
           then: |
@@ -87,8 +84,12 @@ outputs:
           then:
             - __cuda
             - cuda-cudart
-            # enforce cuda major version compatibility - see https://github.com/conda-forge/cuda-feedstock/blob/main/recipe/doc/recipe_guide.md
             - ${{ pin_compatible('cuda-version', lower_bound='x', upper_bound='x') }}
+
+      ignore_run_exports:   # enforce cuda major version compatibility - see https://github.com/conda-forge/cuda-feedstock/blob/main/recipe/doc/recipe_guide.md
+        - if: cuda_compiler_version != "None"
+          then:
+            - cuda-version
             
       run_exports:
         - ${{ pin_subpackage('libparallelproj', upper_bound='x.x') }}
