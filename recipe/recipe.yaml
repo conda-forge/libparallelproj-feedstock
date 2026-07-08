@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "2.0.6"
+  version: "2.0.7"
   build_number: 0
   python_min: "3.12"
 
@@ -11,7 +11,7 @@ recipe:
 
 source:
   url: https://github.com/KUL-recon-lab/libparallelproj/archive/v${{ version }}.tar.gz
-  sha256: 1fc18b3afb5d74644c81688285e6097515358635c597b69e0fb50f8e44d6be69
+  sha256: 0c80b88cf98e42c58faefb755a8f07064814a106e64b419ac6a3527a27ff4cd9
 
 build:
   number: ${{ build_number }}
