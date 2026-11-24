@@ -7,10 +7,12 @@ channel_targets:
 cuda_compiler:
 - cuda-nvcc
 cuda_compiler_version:
-- '13.0'
+- '13.4'
 cxx_compiler:
-- vs2022
+- vs
+cxx_compiler_version:
+- '2022'
 python_min:
-- '3.10'
+- '3.11'
 target_platform:
 - win-64

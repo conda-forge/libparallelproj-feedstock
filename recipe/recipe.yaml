@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "2.0.7"
+  version: "3.0.0"
   build_number: 0
   python_min: "3.12"
 
@@ -11,7 +11,7 @@ recipe:
 
 source:
   url: https://github.com/KUL-recon-lab/libparallelproj/archive/v${{ version }}.tar.gz
-  sha256: 0c80b88cf98e42c58faefb755a8f07064814a106e64b419ac6a3527a27ff4cd9
+  sha256: 01761a71aba27d245131d7cea8c016345f746295440d57adc25546e70235b47b
 
 build:
   number: ${{ build_number }}
@@ -28,7 +28,6 @@ outputs:
             cmake -S "%SRC_DIR%" -B "%SRC_DIR%/_build_lib" -GNinja ^
               %CMAKE_ARGS% ^
               -DCMAKE_BUILD_TYPE=Release ^
-              -DPROJECT_VERSION_OVERRIDE=${{ version }} ^
               -DCMAKE_INSTALL_PREFIX="%PREFIX%" ^
               -DCMAKE_INSTALL_LIBDIR=lib ^
               -DUSE_CUDA=${{ "ON" if cuda_compiler_version != "None" else "OFF" }} ^
@@ -43,7 +42,6 @@ outputs:
             cmake -S "$SRC_DIR" -B "$SRC_DIR/_build_lib" -GNinja \
               ${CMAKE_ARGS} \
               -DCMAKE_BUILD_TYPE=Release \
-              -DPROJECT_VERSION_OVERRIDE=${{ version }} \
               -DCMAKE_INSTALL_PREFIX="$PREFIX" \
               -DCMAKE_INSTALL_LIBDIR=lib \
               -DUSE_CUDA=${{ "ON" if cuda_compiler_version != "None" else "OFF" }} \
@@ -93,9 +91,9 @@ outputs:
             then:
               - cuda-version
               - cuda-cudart-dev
-            
+
       run_exports:
-        - ${{ pin_subpackage('libparallelproj', upper_bound='x.x') }}
+        - ${{ pin_subpackage('libparallelproj', upper_bound='x') }}
 
     tests:
       - package_contents:
@@ -134,7 +132,6 @@ outputs:
             cmake -S "%SRC_DIR%" -B "%SRC_DIR%/_build_py" -GNinja ^
               %CMAKE_ARGS%^
               -DCMAKE_BUILD_TYPE=Release ^
-              -DPROJECT_VERSION_OVERRIDE=${{ version }} ^
               -DCMAKE_INSTALL_PREFIX="%PREFIX%" ^
               -DUSE_CUDA=OFF ^
               -DBUILD_LIBRARY=OFF ^
@@ -150,7 +147,6 @@ outputs:
             cmake -S "$SRC_DIR" -B "$SRC_DIR/_build_py" -GNinja \
               ${CMAKE_ARGS} \
               -DCMAKE_BUILD_TYPE=Release \
-              -DPROJECT_VERSION_OVERRIDE=${{ version }} \
               -DCMAKE_INSTALL_PREFIX="$PREFIX" \
               -DUSE_CUDA=OFF \
               -DBUILD_LIBRARY=OFF \
@@ -200,8 +196,8 @@ outputs:
       - if: build_platform == host_platform
         then:
           script:
-          - python -c "import parallelproj_core as m; print(m.__file__, ', cuda_enabled =', int(m.cuda_enabled))"
-          - pytest -v ./tests
+            - python -c "import parallelproj_core as m; print(m.__file__, ', cuda_enabled =', int(m.cuda_enabled))"
+            - pytest -v ./tests
 
           requirements:
             run:
